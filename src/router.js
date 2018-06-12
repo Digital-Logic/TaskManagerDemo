@@ -11,8 +11,9 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: loadView('Home')
+      name: 'taskList',
+      component: loadView('TaskList'),
+      props: true
     },
     {
       path: '/about',

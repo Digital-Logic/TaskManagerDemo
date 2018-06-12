@@ -23,15 +23,16 @@
     <!-- Toolbar -->
     <v-toolbar dark color="primary" app :fixed="fixed">
       <!-- Filter Selector -->
-      <v-toolbar-items>
+      <v-toolbar-items v-if="$route.name == 'taskList'">
         <v-menu offset-y>
-          <v-btn slot="activator" 
-            flat>{{ filters[curFilter] }}<v-icon right>arrow_drop_down</v-icon></v-btn>
+          <v-btn slot="activator"            
+            flat>{{ filterList[selectedFilter] }}<v-icon right>arrow_drop_down</v-icon></v-btn>
 
           <v-list>      
             <v-list-tile          
-              v-for="(filter, index) of filters"                          
-              :key="index">
+              v-for="(filter, index) of filterList"
+              v-on:click="setSelectedFilter(index)"
+              :key="filter">
               <v-list-tile-title>{{ filter }}</v-list-tile-title>
             </v-list-tile>
           </v-list>
@@ -44,22 +45,43 @@
       <v-toolbar-side-icon v-on:click="drawer = !drawer"/>      
     </v-toolbar>
 
-    <v-content>
+    <v-content ref="appContent">
       <v-container fluid fill-height>
         <v-layout justify-center align center>
           <v-flex xs12>
-            <router-view/>
+            <router-view :newTask="newTask" @closeNewTask="newTask=false"/>
           </v-flex>
         </v-layout>
       </v-container>
     </v-content>
-    <v-footer :fixed="fixed" color="secondary" dark app class="pa-2">
+
+    <!-- Queued Snackbar -->
+    <snackbar />
+
+    
+    <!-- Footer -->
+    <v-footer :fixed="fixed" app dark color="primary" style="height: auto" class="pa-2">
+      <v-fab-transition>
+        <!-- Add New Task Button -->
+        <v-btn
+          v-show="$route.name == 'taskList'"
+          @click="newTaskBtn"
+          color="accent"
+          absolute
+          top
+          right
+          fab><v-icon dark>add</v-icon>
+        </v-btn>
+      </v-fab-transition>
+
       <span>&copy; {{ getYear }}</span>
     </v-footer>
   </v-app>
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex';
+import snackbar from '@/components/QueuedSnackbar.vue';
 
 export default {
   name: 'App',
@@ -67,37 +89,58 @@ export default {
     return {
       fixed: true,
       drawer: false,
-      curFilter: 0,
-      filters: [
-        "All Task",
-        "Today's Task",
-        "Tomorrow's Task",
-        "Overdue Task",
-        "Completed Task"
-      ],
       menu: [
         {
           icon: 'home',
-          link: 'home',
-          text: 'Home'
+          link: 'taskList',
+          text: 'Task List'
         },{
           icon: 'info',
           link: 'about',
           text: 'About'
         }
-      ]
+      ],
+      newTask: false
+    }
+  },
+  methods: {
+    ...mapActions(["setSelectedFilter", "setInterval", "destoryInterval"]),
+    newTaskBtn() {
+      this.newTask = true;
+      let duration = window.pageYOffset + 200;            
+      this.$vuetify.goTo(0, { duration, easing: 'easeInOutCubic'})
     }
   },
   computed: {
+    ...mapState({
+      selectedFilter: (state) => state.filters.selected,
+      filterList: (state) => state.filters.names
+    }),
     getYear() {
       return (new Date()).getFullYear();
     }
   },
+  components: {
+    snackbar
+  },
   created() {
-    this.$store.dispatch('setInterval');
+    this.setInterval();
   },
   beforeDestory() {
-    this.$store.dispatch('destoryInterval');
+    this.destoryInterval();
   }
 }
 </script>
+
+<style lang="scss">
+  .container {
+    padding: 16px !important;
+    @media(min-width: 600px)
+    {
+      padding: 24px !important;
+    }
+  }
+  body {
+    font: 16px;
+  }
+</style>

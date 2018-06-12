@@ -1,13 +1,18 @@
 <template>
-    <v-card flat>
-        <TaskEdit v-if="edit" :task="task"/>
-        <TaskDisplay v-else :task="task"/>        
-    </v-card>
+    <TaskCard>
+        <TaskEdit v-if="editMode" 
+            :task="task"
+            @toggleMode="toggleMode"/>
+        <TaskDisplay v-if="!editMode"
+            :task="task"
+            @toggleMode="toggleMode"/>
+    </TaskCard>
 </template>
 
 <script>
 import TaskDisplay from './TaskDisplay.vue';
 import TaskEdit from './TaskEdit.vue';
+import TaskCard from './TaskCard.vue';
 
 export default {
     props: {
@@ -18,12 +23,18 @@ export default {
     },
     data() {
         return {
-            edit: false
+            editMode: false
         };
+    },
+    methods: {
+        toggleMode() {
+            this.editMode = !this.editMode;
+        }
     },
     components: {
         TaskDisplay,
-        TaskEdit
+        TaskEdit,
+        TaskCard
     }
 }
 </script>
