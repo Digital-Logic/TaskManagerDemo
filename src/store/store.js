@@ -113,16 +113,16 @@ export const mutations = {
     ['SET_SELECTED_FILTER'](state, filterID) {
         state.filters.selected = filterID;
     },
+    // Sets task.completed time to current time.
     ['TOGGLE_TASK_STATE'](state, task) {
-        task.completed = task.completed ? null : moment().toISOString();
+        if (task.completed)
+            Vue.delete(task, 'completed');
+        else Vue.set(task, 'completed', moment().toISOString());        
     },
     ['DELETE_TASK'](state, index) {     
         if (index < 0 || index >= state.taskList.length)
             throw 'DELETE_TASK: index out of range';
         state.taskList.splice(index, 1);                    
-    },
-    ['UNDO_DELETE'](state, task) {
-        state.taskList.push(task);
     },
     // Create snackbar message
     ['CREATE_MESSAGE'](state, message) {
@@ -143,7 +143,6 @@ export const mutations = {
     // Add the new task to the task List.
     ['SAVE_TASK'](state, newTask) {              
         let taskIndex = state.taskList.findIndex(item => item.id === newTask.id);
-
         if (taskIndex !== -1)
         {   // Update Existing Task
             Vue.set(state.taskList, taskIndex, newTask);          
