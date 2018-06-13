@@ -67,7 +67,7 @@
                                     />
                                     
                                     <v-time-picker
-                                        v-model="computeTime"                          
+                                        v-model="computeTime"                  
                                         @change="$refs.timeMenu.save(computeTime)"
                                     />
                                 </v-menu>                                
@@ -115,7 +115,7 @@ export default {
         dateMenu: false,
         timeMenu: false,        
         taskDescript: "",
-        taskDueDate: null,
+        taskDueDate: null,        
         valid: true,
         taskDescriptRules: [
             v => !!v || 'Task name is required.',
@@ -162,6 +162,7 @@ export default {
             },
             set(newDate) {
                 let curTime = moment(this.taskDueDate);
+                this.dateSet = true;
                 this.taskDueDate = moment(newDate)
                     .hour(curTime.hour())  // set hour
                     .minute(curTime.minute()) // set minute

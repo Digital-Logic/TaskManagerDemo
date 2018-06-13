@@ -12,7 +12,7 @@
                 <v-checkbox
                     slot="activator"
                     v-model="taskState"                
-                    :color="completedOnTime() ? 'success' : 'error'"
+                    :color="taskCompletionState() ? 'success' : 'error'"
                     hideDetails                
                     ></v-checkbox>
                 <span v-if="taskCompletionState() === -1">Complete Task</span>
@@ -31,8 +31,11 @@
                 <v-icon left v-if="displayWarning" color="warning">warning</v-icon>
                 <v-icon left v-if="displayError" color="error">error</v-icon>  
 
-                <span class="grey--text ml-2" style="cursor: pointer; color: red;"                   
-                    v-on:click="dueDateFormat = !dueDateFormat">Due {{ formatDueDate }}</span>
+                <v-tooltip bottom>
+                    <span slot="activator" class="grey--text ml-2" style="cursor: pointer; color: red;"                   
+                        v-on:click="dueDateFormat = !dueDateFormat">Due {{ formatDueDate }}</span>
+                    <span>Click to change display</span>
+                </v-tooltip>
             </template>
 
             <!-- Display Completed Date -->
@@ -169,9 +172,6 @@ export default {
                 return -1;
 
             return moment(this.task.dueDate).isAfter(this.task.completed)? 1 : 0;
-        },
-        completedOnTime(){
-            return moment(this.task.dueDate).isAfter(this.task.completed);
         },
         taskAction(action) {
             this.optionsMenu.open = false;
