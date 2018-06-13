@@ -8,12 +8,18 @@
             style="flex: 0 0 auto" 
             :class="{ 'mr-2': $vuetify.breakpoint.xsOnly,
                         'mr-3': $vuetify.breakpoint.smAndUp }">
-        
-            <v-checkbox
-                v-model="taskState"                
-                :color="completedOnTime() ? 'success' : 'error'"
-                hideDetails                
-                ></v-checkbox>
+            <v-tooltip bottom>
+                <v-checkbox
+                    slot="activator"
+                    v-model="taskState"                
+                    :color="completedOnTime() ? 'success' : 'error'"
+                    hideDetails                
+                    ></v-checkbox>
+                <span v-if="taskCompletionState() === -1">Complete Task</span>
+                <span v-if="taskCompletionState() === 0">Task Completed Late</span>
+                <span v-if="taskCompletionState() === 1">Task Completed on Time</span>
+                
+            </v-tooltip>
         </v-flex>
 
         <!-- Description -->
@@ -93,12 +99,14 @@ export default {
                         icon: 'edit',
                         color: 'blue',
                         disable: true,
-                        action: 'edit'
+                        action: 'edit',
+                        text: 'Edit Task'
                     },{
                         icon: 'delete',
                         color: 'red',
                         disable: false,
-                        action: 'delete'
+                        action: 'delete',
+                        text: 'Delete Task'
                     }
                 ]
             },
@@ -153,10 +161,21 @@ export default {
             "toggleTaskState",
             "deleteTask"
         ]),
+        /**
+         *  @returns 1 = completed on time, 0 = completed but late, -1 not Completed
+         */
+        taskCompletionState() {
+            if (!this.task.completed)
+                return -1;
+
+            return moment(this.task.dueDate).isAfter(this.task.completed)? 1 : 0;
+        },
         completedOnTime(){
             return moment(this.task.dueDate).isAfter(this.task.completed);
         },
         taskAction(action) {
+            this.optionsMenu.open = false;
+            this.$nextTick(() => {
             switch(action) {
                 case 'delete':
                     this.deleteTask(this.task);
@@ -165,7 +184,7 @@ export default {
                     this.$emit('toggleMode');
                     break;
             }
-
+            });
         }
     },
     created() {

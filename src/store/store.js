@@ -177,7 +177,7 @@ export const actions = {
             message: `Task Deleted: <strong class="warning--text">${task.descript}</strong>.`,
             btnMessage: 'Undo',
             // Provide undo delete action
-            action: () => commit('UNDO_DELETE', task),
+            action: () => commit('SAVE_TASK', task),
             shiftMessageQueue: () => commit('SHIFT_MESSAGE_QUEUE')
         });
         // Delete the task
@@ -185,10 +185,10 @@ export const actions = {
     },
     saveTask({ commit, state }, newTask)
     {
-        // All actions would have to go through a back-end API
+        // define task id
         if (typeof newTask.id === 'undefined')
         {
-            newTask.id = state.taskIndex;
+            newTask.id = state.taskIndex++;
         }
         commit('SAVE_TASK', newTask);
     }

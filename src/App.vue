@@ -82,6 +82,12 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import snackbar from '@/components/QueuedSnackbar.vue';
+import TWEEN from '@tweenjs/tween.js';
+
+function animate(time) {
+  requestAnimationFrame(animate);
+  TWEEN.update(time);
+}
 
 export default {
   name: 'App',
@@ -125,6 +131,7 @@ export default {
   },
   created() {
     this.setInterval();
+    requestAnimationFrame(animate);
   },
   beforeDestory() {
     this.destoryInterval();
