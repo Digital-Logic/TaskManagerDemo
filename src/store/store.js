@@ -6,37 +6,15 @@ export const state = {
     taskList: [
         {
             descript: "Do my taxes",
-            completed: null,
-            dueDate: moment('2019-04-14').toISOString(),
+            dueDate: moment().add(1,'y').month(3).day(17).toISOString(),
             id: 0
         },{
             descript: "Walk the dog",
-            completed: null,    // Will be date or null for not completed
-            dueDate: moment().add(20,'s').toISOString(),
+            dueDate: moment().add(5,'m').toISOString(),
             id: 1
         },{
-            descript: "Finish programming this app",
-            completed: null,
-            dueDate: moment().add(6,'h').toISOString(),
-            id: 2
-        },{
-            descript: "Task due tomorrow",
-            completed: null,
-            dueDate: moment().add(24,'h').toISOString(),
-            id: 8
-        },{
-            descript: "Task that has not been completed on time",
-            completed: null,
-            dueDate: moment().subtract(30,'m').toISOString(),
-            id: 3
-        },{
-            descript: "No Due Date on this task",
-            completed: null,               
+            descript: "Task without a Due Date.",           
             id: 4
-        },{
-            descript: "Completed task with NO Due Date.",
-            completed: moment().subtract(12,'h').toISOString(),              
-            id: 5
         },{
             descript: "This task was completed late",
             completed: moment().subtract(1,'h').toISOString(),
