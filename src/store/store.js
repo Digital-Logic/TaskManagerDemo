@@ -165,7 +165,7 @@ export const actions = {
         // define task id
         if (typeof newTask.id === 'undefined')
         {
-            newTask.id = state.taskIndex++;
+            newTask.id = state.taskIndex++;            
         }
         commit('SAVE_TASK', newTask);
     }

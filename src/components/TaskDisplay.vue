@@ -176,14 +176,14 @@ export default {
         taskAction(action) {
             this.optionsMenu.open = false;
             this.$nextTick(() => {
-            switch(action) {
-                case 'delete':
-                    this.deleteTask(this.task);
-                    break;
-                case 'edit':
-                    this.$emit('toggleMode');
-                    break;
-            }
+                switch(action) {
+                    case 'delete':
+                        this.deleteTask(this.task);
+                        break;
+                    case 'edit':
+                        this.$emit('toggleMode');
+                        break;
+                }
             });
         }
     },

@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-navigation-drawer      
+    <!-- <v-navigation-drawer      
       v-model="drawer"
       app
       :fixed="fixed"
@@ -18,7 +18,7 @@
             </v-list-tile-content>
           </v-list-tile>
       </v-list>
-    </v-navigation-drawer>
+    </v-navigation-drawer> -->
 
     <!-- Toolbar -->
     <v-toolbar dark color="primary" app :fixed="fixed">
@@ -42,7 +42,7 @@
 
       <v-spacer/>
       <v-toolbar-title>Task Manager</v-toolbar-title>     
-      <v-toolbar-side-icon v-on:click="drawer = !drawer"/>      
+      <!-- <v-toolbar-side-icon v-on:click="drawer = !drawer"/>       -->
     </v-toolbar>
 
     <v-content ref="appContent">
@@ -94,7 +94,7 @@ export default {
   data () {
     return {
       fixed: true,
-      drawer: false,
+    //  drawer: false,
       menu: [
         {
           icon: 'home',
