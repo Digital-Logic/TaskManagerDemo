@@ -6,14 +6,14 @@ const plugins = [];
 function createStorage (storage) {
     return createPersistedState({
         key,
-        paths: ['tasks', 'settings'],
+        paths: ['taskList', 'settings'],
         storage
     });
 }
 
 /* Node compatible local storage */ 
 const nodeStorage = () => {
-    return import(/* webpackChunkName: dom-storage */ 'dom-storage')
+    return import(/* webpackChunkName: 'dom-storage' */ 'dom-storage')
     .then(module => createStorage(new module.default(null, { strict: true } )) )
     .catch(function(e){
         console.log(e);
