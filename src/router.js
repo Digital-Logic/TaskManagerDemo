@@ -15,11 +15,11 @@ export default new Router({
       component: loadView('TaskList'),
       props: true
     },
-    {
-      path: '/about',
-      name: 'about',
-      component: loadView('About')
-    }
+    // {
+    //   path: '/about',
+    //   name: 'about',
+    //   component: loadView('About')
+    // }
   ],
   mode: "history"
 });
