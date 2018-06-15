@@ -21,7 +21,7 @@ const nodeStorage = () => {
 };
 
 
-if (window.localStorage && process.env.VUE_APP_LOCAL_STORAGE === 'true') 
+if (window.localStorage && process.env.VUE_APP_LOCAL_STORAGE !== 'false') 
     plugins.push(createStorage(window.localStorage));
 else plugins.push(nodeStorage);
 
