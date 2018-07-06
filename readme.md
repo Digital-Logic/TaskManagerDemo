@@ -1,6 +1,6 @@
 # Task Manager Demo App
 
-This is a simple task manager / to-do list app that I build to demonstrate my front-end development skills.
+This is a simple task manager / to-do list app.
 
 ## [Demo](http://taskmanager.digital-logic.net/)
 
